@@ -23,6 +23,7 @@ public class RESTApp extends ResourceConfig{
 		config.setResourcePackage("org.shweta");
 		config.setTitle("Restaurant API");
 		config.setScan(true);
+		
 	}
 }
  
