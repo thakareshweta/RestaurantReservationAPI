@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.SystemUtils;
 import org.shweta.model.Table;
 import org.shweta.utils.DBUtils;
 
@@ -160,18 +162,15 @@ public class TableDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
+		System.out.println("Values input : " + date +" " + time + " "+ partySize);
 		try {
 			tableList = dao.getAllPartySizeTables(partySize);
 		} catch (AppException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	
-		
 		for(Table table:tableList)
-		{
-			
+		{		
 			System.out.println("table ID is  " + table.getID());
 			try {
 				ps = con.prepareStatement("SELECT Count(*) AS COUNT FROM reservation WHERE RESERVATIONDATE = ? AND  "
@@ -182,9 +181,10 @@ public class TableDAO {
 				ps.setString(3, time);
 				ps.setInt(4, table.getID());
 				ps.setString(5,  status);
+				System.out.println(ps.toString());
 				rs = ps.executeQuery();
 				if (rs.next()) {
-					System.out.println("THe count for table id is availableTableID  "+rs.getInt("COUNT"));
+					System.out.println("The count for table id is availableTableID  "+rs.getInt("COUNT"));
 					if(rs.getInt("COUNT")>0)
 					{
 						System.out.println("Table is not available");
