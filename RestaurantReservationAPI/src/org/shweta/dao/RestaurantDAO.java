@@ -36,16 +36,12 @@ public class RestaurantDAO {
 				restaurant.setCountry(rs.getString("COUNTRY"));
 				restaurant.setAutoAssign(rs.getBoolean("AUTOASSIGN"));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AppException(e.getMessage(), e.getCause());
 		} finally {
 			DBUtils.closeResource(ps, rs, con);
 		}
-
 		return restaurant;
 	}
-
-
 }

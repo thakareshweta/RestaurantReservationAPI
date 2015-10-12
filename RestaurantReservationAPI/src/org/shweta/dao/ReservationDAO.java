@@ -173,7 +173,40 @@ public class ReservationDAO {
        
 		return res;
 	}
-	   /* Description: This function deletes reservation record in the database.
+	  
+	   /* Description: This function updates reservation record with status as cancel in the database and returns the updated record.
+		 * Input: Reservation object with updated values
+		 * Output: Details of updated reservation object
+		 * */   	
+		public Reservation cancelReservation(Reservation res) throws AppException {
+			Connection con = DBUtils.getConnection();
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			
+			res.setStatus("cancelled");
+			
+			try {
+				ps = con.prepareStatement("Update Reservation set STATUS=? Where ID =?");
+				ps.setString(1,res.getStatus());			
+				
+				ps.setInt(2, res.getId());	
+				System.out.println(ps.toString());
+				int nrOfRowsaffected = ps.executeUpdate();	
+				System.out.println("nr of rows afftected are : "+nrOfRowsaffected);
+				//if (rs.next()) {
+					//emp.setId(rs.getInt(1));
+				//}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AppException(e.getMessage(), e.getCause());
+			} finally {
+				DBUtils.closeResource(ps, rs, con);
+			}
+	       
+			return res;
+		}
+	
+	/* Description: This function deletes reservation record in the database.
 		 * Input: reservation ID 
 		 * Output: flag : true if the record is deleted , false: otherwise
 		 * */	
